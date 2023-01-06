@@ -13,8 +13,16 @@ permissions:
   contents: read
 
 jobs:
+  qemu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: "arm64,arm"
   test:
     runs-on: ubuntu-latest
+    needs: qemu
     timeout-minutes: 30
     # strategy:
     #   matrix:
@@ -28,10 +36,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        # with:
-        #   platforms: "arm64,arm"
       - name: Install dependencies and run tests
         run: |
           mkdir -p $HOME/magicmirror
