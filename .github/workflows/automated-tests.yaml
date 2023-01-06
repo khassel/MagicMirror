@@ -16,24 +16,37 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
+    # strategy:
+    #   matrix:
+    #     node-version: [18]
+    # node-version: [14.x, 16.x, 18.x]
+    # arch: [armv7]
+    # arch: [armv7, aarch64]
+    container:
+      image: "arm32v7/node:18-bullseye"
+      # options: --user 1000
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        # with:
+        #   platforms: "arm64,arm"
       - name: Install dependencies and run tests
         run: |
-          Xvfb :99 -screen 0 1024x768x16 &
-          export DISPLAY=:99
+          mkdir -p $HOME/magicmirror
+          cp -r . $HOME/magicmirror/
+          cd $HOME/magicmirror
+          # Xvfb :99 -screen 0 1024x768x16 &
+          # export DISPLAY=:99
+          id
+          pwd
+          ls -la
           npm run install-mm:dev
           touch css/custom.css
           npm run test:prettier
           npm run test:js
           npm run test:css
-          npm run test
+          # npm run test
+          npm run test:unit
+          npm run test:e2e
