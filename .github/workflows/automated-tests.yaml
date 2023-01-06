@@ -18,22 +18,45 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
+        # node-version: [14.x, 16.x, 18.x]
+        arch: [armv7l]
+        # arch: [armv7l, aarch64]
+        include:
+        - arch: armv7l
+          base_image: raspi_2_bullseye:20220121
+          # base_image: raspios_lite:latest
+          # cpu_info: raspberrypi_4b
+        # - arch: aarch64
+        #   cpu: cortex-a53
+        #   base_image: raspios_lite_arm64:latest
+        #   cpu_info: raspberrypi_zero2_w_arm64_w
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      #     cache: "npm"
       - name: Install dependencies and run tests
-        run: |
-          Xvfb :99 -screen 0 1024x768x16 &
-          export DISPLAY=:99
-          npm run install-mm:dev
-          touch css/custom.css
-          npm run test:prettier
-          npm run test:js
-          npm run test:css
-          npm run test
+        uses: pguyot/arm-runner-action@v2
+        with:
+          base_image: ${{ matrix.base_image }}
+          # cpu_info: ${{ matrix.cpu_info }}
+          commands: |
+              set -e
+              uname -a
+              id
+              curl -fsSL https://deb.nodesource.com/setup_${{ matrix.node-version }} | bash -
+              sudo apt-get install -y nodejs npm
+              node -v
+              npm -v
+              Xvfb :99 -screen 0 1024x768x16 &
+              export DISPLAY=:99
+              npm run install-mm:dev
+              touch css/custom.css
+              npm run test:prettier
+              npm run test:js
+              npm run test:css
+              npm run test
