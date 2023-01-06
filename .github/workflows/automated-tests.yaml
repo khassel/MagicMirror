@@ -18,22 +18,42 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
+        # node-version: [14.x, 16.x, 18.x]
+        arch: [armv7]
+        # arch: [armv7, aarch64]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      #     cache: "npm"
       - name: Install dependencies and run tests
-        run: |
-          Xvfb :99 -screen 0 1024x768x16 &
-          export DISPLAY=:99
-          npm run install-mm:dev
-          touch css/custom.css
-          npm run test:prettier
-          npm run test:js
-          npm run test:css
-          npm run test
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: ${{ matrix.arch }}
+          distro: bullseye
+          shell: /bin/bash
+          install: |
+              set -e
+              uname -a
+              id
+              apt-get update
+              apt-get install -y curl
+              curl -fsSL https://deb.nodesource.com/setup_${{ matrix.node-version }} | bash -
+              apt-get install -y nodejs npm
+              node -v
+              npm -v
+          run: |
+              # Xvfb :99 -screen 0 1024x768x16 &
+              # export DISPLAY=:99
+              npm run install-mm:dev
+              touch css/custom.css
+              npm run test:prettier
+              npm run test:js
+              npm run test:css
+              # npm run test
+              npm run test:unit
+              npm run test:e2e
