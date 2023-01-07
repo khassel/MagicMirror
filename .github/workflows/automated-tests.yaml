@@ -26,18 +26,9 @@ jobs:
         uses: dbhi/qus/action@main
         with:
           targets: arm aarch64
-      - name: Get docker image
+      - name: Install dependencies and run tests
         # uses: 'docker://${{ matrix.arch }}/node:${{ matrix.node-version }}-bullseye'
         uses: docker://arm32v7/node:18-bullseye
-      - name: Install dependencies and run tests
-        run: |
-          uname -a
-          cat /etc/os-release
-          Xvfb :99 -screen 0 1024x768x16 &
-          export DISPLAY=:99
-          npm run install-mm:dev
-          touch css/custom.css
-          npm run test:prettier
-          npm run test:js
-          npm run test:css
-          npm run test
+        with:
+          args: /bin/bash -c "./.github/workflows/run_mm_tests"
+          # args: /bin/bash -c "uname -a && cat /etc/os-release && Xvfb :99 -screen 0 1024x768x16 & && export DISPLAY=:99 && npm run install-mm:dev && touch css/custom.css && npm run test:prettier && npm run test:js && npm run test:css && npm run test"
