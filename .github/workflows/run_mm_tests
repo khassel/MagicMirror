@@ -1,13 +1,19 @@
+#!/bin/bash
+
+set -e
+
 uname -a
 cat /etc/os-release
-# Xvfb :99 -screen 0 1024x768x16 &
-# export DISPLAY=:99
+
+apt-get update
+apt-get install -y xvfb
+Xvfb :99 -screen 0 1024x768x16 &
+export DISPLAY=:99
+
 npm run install-mm:dev
 touch css/custom.css
 npm run test:prettier
 npm run test:js
 npm run test:css
-# npm run test
-npm run test:unit
-npm run test:e2e
+npm run test
 
