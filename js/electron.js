@@ -47,7 +47,9 @@ function createWindow() {
 		electronOptionsDefaults.kiosk = true;
 	} else {
 		electronOptionsDefaults.fullscreen = true;
-		electronOptionsDefaults.autoHideMenuBar = true;
+		electronOptionsDefaults.frame = false;
+		electronOptionsDefaults.transparent = true;
+		electronOptionsDefaults.hasShadow = false;
 	}
 
 	const electronOptions = Object.assign({}, electronOptionsDefaults, config.electronOptions);

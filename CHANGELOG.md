@@ -25,6 +25,7 @@ _This release is scheduled to be released on 2023-04-01._
 ### Fixed
 
 - Fix wrong day labels in envcanada forecast (#2987)
+- Fixed electron flashing white screen on startup (#1919)
 
 ## [2.22.0] - 2023-01-01
 
