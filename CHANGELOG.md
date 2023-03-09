@@ -1,3 +1,29 @@
+test hanging, needing --forceExit (all these tests are using `waitForElement`):
+- tests/e2e/modules_empty_spec.js
+- tests/e2e/env_spec.js
+- tests/e2e/modules/weather_current_spec.js
+- tests/e2e/modules/weather_forecast_spec.js
+- tests/e2e/modules/newsfeed_spec.js
+- tests/e2e/modules/clock_spec.js
+- tests/e2e/modules/calendar_spec.js
+- tests/e2e/modules/compliments_spec.js
+- tests/e2e/modules/alert_spec.js
+- tests/e2e/modules/weather_hourly_spec.js
+- tests/e2e/modules/clock_es_spec.js
+tests ending correctly not using `waitForElement`:
++ tests/e2e/template_spec.js
++ tests/e2e/port_spec.js
++ tests/e2e/ipWhitelist_spec.js
++ tests/e2e/fonts_spec.js
++ tests/e2e/vendor_spec.js
++ tests/e2e/translations_spec.js
+tests ending correctly using `waitForElement`:
++ tests/e2e/modules_position_spec.js
++ tests/e2e/modules_display_spec.js
++ tests/e2e/modules/helloworld_spec.js
+
+
+
 # MagicMirror² Change Log
 
 All notable changes to this project will be documented in this file.
