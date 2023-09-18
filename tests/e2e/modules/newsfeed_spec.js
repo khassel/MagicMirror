@@ -56,7 +56,7 @@ describe("Newsfeed module", () => {
 		});
 
 		it("should show malformed url warning", async () => {
-			const elem = await helpers.waitForElement(".newsfeed .small", "No news at the moment.");
+			const elem = await helpers.waitForElement(".newsfeed .small", { ignoreText: "No news at the moment." });
 			expect(elem).not.toBe(null);
 			expect(elem.textContent).toContain("Error in the Newsfeed module. Malformed url.");
 		});

@@ -18,7 +18,7 @@ describe("Calendar module", () => {
 	};
 
 	const testTextContain = async (element, text) => {
-		const elem = await helpers.waitForElement(element, "undefinedLoading");
+		const elem = await helpers.waitForElement(element);
 		expect(elem).not.toBe(null);
 		expect(elem.textContent).toContain(text);
 	};

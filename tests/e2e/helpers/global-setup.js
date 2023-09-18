@@ -32,6 +32,7 @@ exports.getDocument = () => {
 			dom.window.name = "jsdom";
 			dom.window.fetch = fetch;
 			dom.window.onload = () => {
+				global.MutationObserver = dom.window.MutationObserver;
 				global.document = dom.window.document;
 				resolve();
 			};
@@ -39,25 +40,52 @@ exports.getDocument = () => {
 	});
 };
 
-exports.waitForElement = (selector, ignoreValue = "") => {
+exports.waitForElement = (selector, options) => {
 	return new Promise((resolve) => {
-		let oldVal = "dummy12345";
 		const interval = setInterval(() => {
-			const element = document.querySelector(selector);
-			if (element) {
-				let newVal = element.textContent;
-				if (newVal === oldVal) {
-					clearInterval(interval);
-					resolve(element);
-				} else {
-					if (ignoreValue === "") {
-						oldVal = newVal;
-					} else {
-						if (!newVal.includes(ignoreValue)) oldVal = newVal;
+			const checkElem = (elem, obs) => {
+				let opt = options;
+				if (!opt) opt = {};
+				if (!opt.type) opt.type = "text";
+				if (opt.type === "text") {
+					if (elem && elem.textContent) {
+						let txt = elem.textContent.trim();
+						if (!opt.allowUndefined)
+							txt = txt
+								.replace(/undefined/gm, "")
+								.replace(/undefinedError.*/, "")
+								.replace(/Loading.*/, "")
+								.trim();
+						if (txt !== "" && (!opt.ignoreText || !txt.includes(opt.ignoreText))) {
+							clearInterval(interval);
+							if (obs) obs.disconnect();
+							resolve(elem);
+						}
+					}
+				} else if (opt.type === "html") {
+					if (elem && elem.outerHTML) {
+						if (elem.outerHTML !== "") {
+							clearInterval(interval);
+							if (obs) obs.disconnect();
+							resolve(elem);
+						}
 					}
 				}
+			};
+
+			if (document.querySelector(selector)) {
+				checkElem(document.querySelector(selector));
 			}
-		}, 100);
+
+			const observer = new MutationObserver(() => {
+				checkElem(document.querySelector(selector), observer);
+			});
+
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true
+			});
+		}, 5);
 	});
 };
 
@@ -65,17 +93,32 @@ exports.waitForAllElements = (selector) => {
 	return new Promise((resolve) => {
 		let oldVal = 999999;
 		const interval = setInterval(() => {
-			const element = document.querySelectorAll(selector);
-			if (element) {
-				let newVal = element.length;
-				if (newVal === oldVal) {
-					clearInterval(interval);
-					resolve(element);
-				} else {
-					if (newVal !== 0) oldVal = newVal;
+			const checkElem = (elem, obs) => {
+				if (elem) {
+					let newVal = elem.length;
+					if (newVal === oldVal) {
+						clearInterval(interval);
+						if (obs) obs.disconnect();
+						resolve(elem);
+					} else {
+						if (newVal !== 0) oldVal = newVal;
+					}
 				}
+			};
+
+			if (document.querySelectorAll(selector)) {
+				checkElem(document.querySelectorAll(selector));
 			}
-		}, 100);
+
+			const observer = new MutationObserver(() => {
+				checkElem(document.querySelectorAll(selector), observer);
+			});
+
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true
+			});
+		}, 5);
 	});
 };
 

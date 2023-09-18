@@ -21,7 +21,7 @@ describe("Weather module: Weather Forecast", () => {
 		const icons = ["day-cloudy", "rain", "day-sunny", "day-sunny", "day-sunny"];
 		for (const [index, icon] of icons.entries()) {
 			it(`should render icon ${icon}`, async () => {
-				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`);
+				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1}) td:nth-child(2) span.wi-${icon}`, { type: "html" });
 				expect(elem).not.toBe(null);
 			});
 		}
@@ -43,7 +43,7 @@ describe("Weather module: Weather Forecast", () => {
 		const opacities = [1, 1, 0.8, 0.5333333333333333, 0.2666666666666667];
 		for (const [index, opacity] of opacities.entries()) {
 			it(`should render fading of rows with opacity=${opacity}`, async () => {
-				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1})`);
+				const elem = await helpers.waitForElement(`.weather table.small tr:nth-child(${index + 1})`, { type: "html" });
 				expect(elem).not.toBe(null);
 				expect(elem.outerHTML).toContain(`<tr style="opacity: ${opacity};">`);
 			});
@@ -69,12 +69,12 @@ describe("Weather module: Weather Forecast", () => {
 		});
 
 		it("should render custom table class", async () => {
-			const elem = await helpers.waitForElement(".weather table.myTableClass");
+			const elem = await helpers.waitForElement(".weather table.myTableClass", { type: "html" });
 			expect(elem).not.toBe(null);
 		});
 
 		it("should render colored rows", async () => {
-			const table = await helpers.waitForElement(".weather table.myTableClass");
+			const table = await helpers.waitForElement(".weather table.myTableClass", { type: "html" });
 			expect(table).not.toBe(null);
 			expect(table.rows).not.toBe(null);
 			expect(table.rows.length).toBe(5);
@@ -84,7 +84,7 @@ describe("Weather module: Weather Forecast", () => {
 		for (const [index, precipitation] of precipitations.entries()) {
 			if (precipitation) {
 				it(`should render precipitation amount ${precipitation}`, async () => {
-					await weatherFunc.getText(`.weather table tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation);
+					await weatherFunc.getText(`.weather table tr:nth-child(${index + 1}) td.precipitation-amount`, precipitation, { allowUndefined: true });
 				});
 			}
 		}

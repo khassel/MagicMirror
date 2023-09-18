@@ -17,7 +17,7 @@ describe("Display of modules", () => {
 	});
 
 	it("should show no header if no header text is specified", async () => {
-		const elem = await helpers.waitForElement("#module_1_helloworld .module-header");
+		const elem = await helpers.waitForElement("#module_1_helloworld .module-header", { allowUndefined: true });
 		expect(elem).not.toBe(null);
 		expect(elem.textContent).toBe("undefined");
 	});

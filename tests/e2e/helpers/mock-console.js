@@ -10,6 +10,7 @@ const mockError = (err) => {
 		err.includes("exports is not defined") ||
 		err.includes("write EPIPE") ||
 		err.includes("AggregateError") ||
+		err.includes("Error: Could not load") ||
 		err.includes("ERR_SOCKET_CONNECTION_TIMEOUT")
 	) {
 		jest.fn();
