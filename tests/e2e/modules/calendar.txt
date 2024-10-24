@@ -1,0 +1,86 @@
+node@250fb4d226c2:/opt/magic_mirror$ cat tests/e2e/modules/calendar_spec.js
+const helpers = require("../helpers/global-setup");
+const serverBasicAuth = require("../helpers/basic-auth");
+
+describe("Calendar module", () => {
+
+        /**
+         * @param {string} element css selector
+         * @param {string} result expected number
+         * @param {string} not reverse result
+         * @returns {boolean} result
+         */
+        const testElementLength = async (element, result, not) => {
+                const elem = await helpers.waitForAllElements(element);
+                expect(elem).not.toBeNull();
+                if (not === "not") {
+                        expect(elem).not.toHaveLength(result);
+                } else {
+                        expect(elem).toHaveLength(result);
+                }
+                return true;
+        };
+
+        const testTextContain = async (element, text) => {
+                const elem = await helpers.waitForElement(element, "undefinedLoading");
+                expect(elem).not.toBeNull();
+                expect(elem.textContent).toContain(text);
+                return true;
+        };
+
+        afterAll(async () => {
+                await helpers.stopApplication();
+        });
+
+        describe("Default configuration", () => {
+                beforeAll(async () => {
+                        await helpers.startApplication("tests/configs/modules/calendar/show-duplicates-in-calendar.js");
+                        await helpers.getDocument();
+                });
+
+        describe("Events from multiple calendars", () => {
+                it("should show multiple events with the same title and start time from different calendars", async () => {
+  const mockedDate = new Date("2024-09-15T12:30:00.000Z");
+  const originalDate = global.Date;
+
+/*
+  const originalDate = global.Date.now;
+  global.Date.now = jest.fn(() => mockedDate);
+  console.dir(new Date(Date.now()).toString());
+*/
+  Date = class extends Date {
+    constructor(...args) {
+      if (args.length === 0) {
+        super(mockedDate);
+      } else {
+        super(...args);
+      }
+    }
+  };
+  // Override Date.now() to start from fakeNow
+  const __DateNowOffset = mockedDate - Date.now();
+  const __DateNow = Date.now;
+  Date.now = () => __DateNow() + __DateNowOffset;
+
+  console.dir(new Date(Date.now()).toString());
+
+                        await expect(testElementLength(".calendar .event", 20)).resolves.toBe(true);
+
+//  global.Date.now = originalDate;
+  global.Date = originalDate;
+  console.dir(new Date(Date.now()).toString());
+
+                });
+        });
+
+/*
+                it("should show the default maximumEntries of 10", async () => {
+                        await expect(testElementLength(".calendar .event", 10)).resolves.toBe(true);
+                });
+
+                it("should show the default calendar symbol in each event", async () => {
+                        await expect(testElementLength(".calendar .event .fa-calendar-alt", 0, "not")).resolves.toBe(true);
+                });*/
+        });
+
+});

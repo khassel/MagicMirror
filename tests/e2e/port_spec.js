@@ -17,7 +17,7 @@ describe("port directive configuration", () => {
 
 	describe("Set port 8100 on environment variable MM_PORT", () => {
 		beforeAll(async () => {
-			await helpers.startApplication("tests/configs/port_8090.js", (process.env.MM_PORT = 8100));
+			await helpers.startApplication("tests/configs/port_8090.js", "", "", (process.env.MM_PORT = 8100));
 		});
 		afterAll(async () => {
 			await helpers.stopApplication();

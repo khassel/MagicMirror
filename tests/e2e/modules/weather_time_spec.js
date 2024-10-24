@@ -1,5 +1,4 @@
 const helpers = require("../helpers/global-setup");
-const weatherHelper = require("../helpers/weather-setup");
 const { cleanupMockData } = require("../../utils/weather_mocker");
 
 describe("Weather module", () => {

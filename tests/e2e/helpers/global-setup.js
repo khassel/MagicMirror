@@ -1,3 +1,4 @@
+// const moment = require("moment-timezone");
 const os = require("node:os");
 const fs = require("node:fs");
 const jsdom = require("jsdom");
@@ -15,17 +16,38 @@ const sampleCss = [
 var indexData = [];
 var cssData = [];
 
-exports.startApplication = async (configFilename, exec) => {
+exports.startApplication = async (configFilename, mockTime, timezone= "GMT", exec) => {
 	jest.resetModules();
 	if (global.app) {
 		await this.stopApplication();
 	}
-	// Set config sample for use in test
+	process.env.TZ = timezone;
+	// moment.tz.setDefault(timezone);
+	// moment.tz.guess = () => timezone;
+// Set config sample for use in test
 	if (configFilename === "") {
 		process.env.MM_CONFIG_FILE = "config/config.js";
 	} else {
 		process.env.MM_CONFIG_FILE = configFilename;
 	}
+
+	const fakeNow = new Date(mockTime).valueOf();
+
+	global.originalDate = global.Date;
+	Date = class extends Date {
+		constructor(...args) {
+			if (args.length === 0) {
+				super(fakeNow);
+			} else {
+				super(...args);
+			}
+		}
+	};
+	const __DateNowOffset = fakeNow - Date.now();
+	const __DateNow = Date.now;
+	Date.now = () => __DateNow() + __DateNowOffset;
+	// global.Date.setDate = jest.fn(() => fakeNow);
+
 	if (exec) exec;
 	global.app = require("../../../js/app");
 
@@ -38,6 +60,7 @@ exports.stopApplication = async () => {
 	}
 	await global.app.stop();
 	delete global.app;
+	if (global.originalDate) global.Date = global.originalDate;
 };
 
 exports.getDocument = () => {
