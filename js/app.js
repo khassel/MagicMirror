@@ -5,17 +5,15 @@ const fs = require("node:fs");
 const path = require("node:path");
 const envsub = require("envsub");
 const Log = require("logger");
+// used to control fetch timeout for node_helpers
+const { setGlobalDispatcher, Agent } = require("undici");
 
-// global absolute root path
-global.root_path = path.resolve(`${__dirname}/../`);
+const { getEnvVarsAsObj } = require("#server_functions");
 
 const Server = require(`${__dirname}/server`);
 const Utils = require(`${__dirname}/utils`);
 
 const defaultModules = require(`${global.root_path}/modules/default/defaultmodules`);
-// used to control fetch timeout for node_helpers
-const { setGlobalDispatcher, Agent } = require("undici");
-const { getEnvVarsAsObj } = require("#server_functions");
 // common timeout value, provide environment override in case
 const fetch_timeout = process.env.mmFetchTimeout !== undefined ? process.env.mmFetchTimeout : 30000;
 

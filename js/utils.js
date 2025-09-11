@@ -1,7 +1,6 @@
-const path = require("node:path");
+require("#server_functions");
 
-const rootPath = path.resolve(`${__dirname}/../`);
-const Log = require(`${rootPath}/js/logger.js`);
+const Log = require(`${global.root_path}/js/logger.js`);
 const os = require("node:os");
 const fs = require("node:fs");
 const si = require("systeminformation");
