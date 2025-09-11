@@ -3,8 +3,7 @@ const os = require("node:os");
 const fs = require("node:fs");
 const jsdom = require("jsdom");
 
-// global absolute root path
-global.root_path = path.resolve(`${__dirname}/../../../`);
+require("#server_functions");
 
 const indexFile = `${global.root_path}/index.html`;
 const cssFile = `${global.root_path}/css/custom.css`;

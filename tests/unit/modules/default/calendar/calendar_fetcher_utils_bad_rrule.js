@@ -1,6 +1,7 @@
 global.moment = require("moment-timezone");
+require("#server_functions");
 
-const CalendarFetcherUtils = require("../../../../../modules/default/calendar/calendarfetcherutils");
+const CalendarFetcherUtils = require(`${global.root_path}/modules/default/calendar/calendarfetcherutils`);
 
 describe("Calendar fetcher utils test", () => {
 	const defaultConfig = {

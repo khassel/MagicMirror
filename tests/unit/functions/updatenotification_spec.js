@@ -1,3 +1,5 @@
+require("#server_functions");
+
 jest.mock("node:util", () => ({
 	...jest.requireActual("util"),
 	promisify: jest.fn()
@@ -32,7 +34,7 @@ describe("Updatenotification", () => {
 		const { promisify } = require("node:util");
 		promisify.mockReturnValue(execMock);
 
-		const GitHelper = require("../../../modules/default/updatenotification/git_helper");
+		const GitHelper = require(`${global.root_path}/modules/default/updatenotification/git_helper`);
 		gitHelper = new GitHelper();
 	});
 

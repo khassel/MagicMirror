@@ -1,4 +1,4 @@
-const { injectMockData, cleanupMockData } = require("../../utils/weather_mocker");
+const { injectMockData, cleanupMockData } = require(`${global.root_path}/tests/utils/weather_mocker`);
 const helpers = require("./global-setup");
 
 exports.getText = async (element, result) => {

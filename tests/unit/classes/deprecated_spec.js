@@ -1,4 +1,6 @@
-const deprecated = require("../../../js/deprecated");
+require("#server_functions");
+
+const deprecated = require(`${global.root_path}/js/deprecated`);
 
 describe("Deprecated", () => {
 	it("should be an object", () => {

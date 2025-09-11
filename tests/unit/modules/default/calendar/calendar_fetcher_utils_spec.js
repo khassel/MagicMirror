@@ -1,9 +1,11 @@
 global.moment = require("moment-timezone");
+require("#server_functions");
 
 const ical = require("node-ical");
 const { expect } = require("playwright/test");
 const moment = require("moment-timezone");
-const CalendarFetcherUtils = require("../../../../../modules/default/calendar/calendarfetcherutils");
+
+const CalendarFetcherUtils = require(`${global.root_path}/modules/default/calendar/calendarfetcherutils`);
 
 describe("Calendar fetcher utils test", () => {
 	const defaultConfig = {

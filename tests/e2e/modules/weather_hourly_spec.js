@@ -1,3 +1,4 @@
+const helpers = require("../helpers/global-setup");
 const weatherFunc = require("../helpers/weather-functions");
 
 describe("Weather module: Weather Hourly Forecast", () => {

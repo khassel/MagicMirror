@@ -1,6 +1,7 @@
 global.moment = require("moment");
+require("#server_functions");
 
-const CalendarUtils = require("../../../../../modules/default/calendar/calendarutils");
+const CalendarUtils = require(`${global.root_path}/modules/default/calendar/calendarutils`);
 
 describe("Calendar utils tests", () => {
 	describe("capFirst", () => {

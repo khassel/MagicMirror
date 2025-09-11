@@ -1,4 +1,6 @@
-const Utils = require("../../../js/utils");
+require("#server_functions");
+
+const Utils = require(`${global.root_path}/js/utils`);
 
 describe("Utils", () => {
 	it("should output system information", async () => {

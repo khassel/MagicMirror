@@ -1,5 +1,4 @@
 const fs = require("node:fs");
-const path = require("node:path");
 const exec = require("node:child_process").execSync;
 
 /**
@@ -23,7 +22,7 @@ const readMockData = (type, extendedData = {}) => {
 			break;
 	}
 
-	const fileData = JSON.parse(fs.readFileSync(path.resolve(`${__dirname}/../mocks/${fileName}`)).toString());
+	const fileData = JSON.parse(fs.readFileSync(`${global.root_path}/tests/mocks/${fileName}`).toString());
 	const mergedData = JSON.stringify({ ...{}, ...fileData, ...extendedData });
 	return mergedData;
 };
@@ -45,7 +44,7 @@ const injectMockData = (configFileName, extendedData = {}) => {
 };
 
 const cleanupMockData = () => {
-	const tempDir = path.resolve(`${__dirname}/../configs`).toString();
+	const tempDir = `${global.root_path}/tests/configs`;
 	exec(`find ${tempDir} -type f -name *_temp.js -delete`);
 };
 

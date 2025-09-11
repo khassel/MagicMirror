@@ -3,7 +3,10 @@ const path = require("node:path");
 const helmet = require("helmet");
 const { JSDOM } = require("jsdom");
 const express = require("express");
-const translations = require("../../translations/translations");
+
+require("#server_functions");
+
+const translations = require(`${global.root_path}/translations/translations`);
 
 /**
  * Helper function to create a fresh Translator instance with DOM environment.

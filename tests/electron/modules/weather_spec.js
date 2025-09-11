@@ -1,6 +1,7 @@
 const helpers = require("../helpers/global-setup");
 const weatherHelper = require("../helpers/weather-setup");
-const { cleanupMockData } = require("../../utils/weather_mocker");
+
+const { cleanupMockData } = require(`${global.root_path}/tests/utils/weather_mocker`);
 
 const CURRENT_WEATHER_CONFIG = "tests/configs/modules/weather/currentweather_default.js";
 const SUNRISE_DATE = "13 Jan 2019 00:30:00 GMT";
