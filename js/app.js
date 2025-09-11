@@ -4,9 +4,9 @@ require("module-alias/register");
 const fs = require("node:fs");
 const path = require("node:path");
 const envsub = require("envsub");
-const Log = require("logger");
 // used to control fetch timeout for node_helpers
 const { setGlobalDispatcher, Agent } = require("undici");
+const Log = require("#logger");
 
 const { getEnvVarsAsObj } = require("#server_functions");
 

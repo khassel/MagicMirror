@@ -1,8 +1,8 @@
 const https = require("node:https");
 const ical = require("node-ical");
-const Log = require("logger");
 const NodeHelper = require("node_helper");
 const CalendarFetcherUtils = require("./calendarfetcherutils");
+const Log = require("#logger");
 const { getUserAgent } = require("#server_functions");
 const { scheduleTimer } = require("#module_functions");
 

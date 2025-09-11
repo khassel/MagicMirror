@@ -3,8 +3,8 @@ const stream = require("node:stream");
 const FeedMe = require("feedme");
 const iconv = require("iconv-lite");
 const { htmlToText } = require("html-to-text");
-const Log = require("logger");
 const NodeHelper = require("node_helper");
+const Log = require("#logger");
 const { getUserAgent } = require("#server_functions");
 const { scheduleTimer } = require("#module_functions");
 

@@ -2,7 +2,7 @@ const Exec = require("node:child_process").exec;
 const Spawn = require("node:child_process").spawn;
 const fs = require("node:fs");
 
-const Log = require("logger");
+const Log = require("#logger");
 
 /*
  * class Updater

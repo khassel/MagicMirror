@@ -4,10 +4,10 @@ const { styleText } = require("node:util");
 const Ajv = require("ajv");
 const globals = require("globals");
 const { Linter } = require("eslint");
+const Log = require("#logger");
 
 require("#server_functions");
 
-const Log = require(`${global.root_path}/js/logger.js`);
 const Utils = require(`${global.root_path}/js/utils.js`);
 
 const linter = new Linter({ configType: "flat" });

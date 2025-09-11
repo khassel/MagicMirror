@@ -10,8 +10,8 @@ jest.mock("node:fs", () => ({
 	statSync: jest.fn()
 }));
 
-jest.mock("logger", () => ({
-	...jest.requireActual("logger"),
+jest.mock("#logger", () => ({
+	...jest.requireActual("#logger"),
 	error: jest.fn(),
 	info: jest.fn()
 }));
@@ -107,7 +107,7 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
 
-			const { error } = require("logger");
+			const { error } = require("#logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});
@@ -146,7 +146,7 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
 
-			const { error } = require("logger");
+			const { error } = require("#logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});
@@ -187,7 +187,7 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
 
-			const { error } = require("logger");
+			const { error } = require("#logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});
@@ -228,7 +228,7 @@ describe("Updatenotification", () => {
 			const repos = await gitHelper.getRepos();
 			expect(repos).toHaveLength(0);
 
-			const { error } = require("logger");
+			const { error } = require("#logger");
 			expect(error).toHaveBeenCalledWith(`Failed to retrieve repo info for ${moduleName}: Failed to retrieve status`);
 		});
 	});

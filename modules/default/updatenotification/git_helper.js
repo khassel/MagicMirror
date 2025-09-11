@@ -2,7 +2,7 @@ const util = require("node:util");
 const exec = util.promisify(require("node:child_process").exec);
 const fs = require("node:fs");
 const path = require("node:path");
-const Log = require("logger");
+const Log = require("#logger");
 
 class GitHelper {
 	constructor () {

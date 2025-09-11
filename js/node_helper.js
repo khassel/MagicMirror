@@ -1,6 +1,6 @@
 const express = require("express");
-const Log = require("logger");
 const Class = require("./class");
+const Log = require("#logger");
 
 const NodeHelper = Class.extend({
 	init () {

@@ -29,6 +29,9 @@
 		},
 		"#server_functions": {
 			"default": "./js/server_functions.js"
+		},
+		"#logger": {
+			"default": "./js/logger.js"
 		}
 	},
 	"main": "js/electron.js",

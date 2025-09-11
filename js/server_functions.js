@@ -1,10 +1,9 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const Log = require("#logger");
 
 // global absolute root path
 global.root_path = path.resolve(`${__dirname}/../`);
-
-const Log = require(`${global.root_path}/js/logger`);
 
 const startUp = new Date();
 
