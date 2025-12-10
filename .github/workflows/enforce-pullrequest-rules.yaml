@@ -4,19 +4,22 @@
 name: "Enforce Pull-Request Rules"
 
 on:
-  pull_request_target:
-    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+  pull_request:
+  push:
+    branches:
+      - develop
 
 jobs:
   check:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     timeout-minutes: 10
     steps:
-      - name: "Enforce develop branch"
-        if: ${{ github.event.pull_request.base.ref == 'master' && !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
+      - name: "Branch is not based on develop"
+        if: ${{ github.base_ref != 'develop' && !contains(github.event.pull_request.labels.*.name, 'mastermerge') }}
         run: |
-          echo "This PR is based against the master branch and not a release or hotfix."
-          echo "Please don't do this. Switch the branch to 'develop'."
+          echo "Current base branch: $BASE_BRANCH"
+          echo "Note: PRs should only ever be merged into develop so please rebase your branch on develop and try again."
           exit 1
         env:
-          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BASE_BRANCH: ${{ github.base_ref }}
